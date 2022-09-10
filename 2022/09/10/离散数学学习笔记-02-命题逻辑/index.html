@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>离散数学学习笔记-02-命题逻辑 - eryoyo的博客</title><link rel="manifest" href="/blog/manifest.json"><meta name="theme-color" content="#3273dc"><meta name="application-name" content="eryoyo的"><meta name="msapplication-TileImage" content="/img/profile.jpeg"><meta name="msapplication-TileColor" content="#3273dc"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="eryoyo的"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" sizes="144x144" href="/img/profile.jpeg"><meta name="description" content="命题proposition非真既假的普通陈述句，真值true&amp;#x2F;false唯一确定，（本命题是假的）和（本命题是真的）不是命题"><meta property="og:type" content="blog"><meta property="og:title" content="离散数学学习笔记-02-命题逻辑"><meta property="og:url" content="https://eryoyo.github.io/blog/2022/09/10/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-02-%E5%91%BD%E9%A2%98%E9%80%BB%E8%BE%91/"><meta property="og:site_name" content="eryoyo的博客"><meta property="og:description" content="命题proposition非真既假的普通陈述句，真值true&amp;#x2F;false唯一确定，（本命题是假的）和（本命题是真的）不是命题"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://eryoyo.github.io/blog/img/og_image.png"><meta property="article:published_time" content="2022-09-10T11:19:07.000Z"><meta property="article:modified_time" content="2022-09-10T11:19:54.519Z"><meta property="article:author" content="eryoyo"><meta property="article:tag" content="离散数学"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/blog/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://eryoyo.github.io/blog/2022/09/10/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-02-%E5%91%BD%E9%A2%98%E9%80%BB%E8%BE%91/"},"headline":"离散数学学习笔记-02-命题逻辑","image":["https://eryoyo.github.io/blog/img/og_image.png"],"datePublished":"2022-09-10T11:19:07.000Z","dateModified":"2022-09-10T11:19:54.519Z","author":{"@type":"Person","name":"eryoyo"},"publisher":{"@type":"Organization","name":"eryoyo的博客","logo":{"@type":"ImageObject","url":"https://eryoyo.github.io/img/profile.jpeg"}},"description":"命题proposition非真既假的普通陈述句，真值true&#x2F;false唯一确定，（本命题是假的）和（本命题是真的）不是命题"}</script><link rel="canonical" href="https://eryoyo.github.io/blog/2022/09/10/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-02-%E5%91%BD%E9%A2%98%E9%80%BB%E8%BE%91/"><link rel="icon" href="/blog/img/profile.jpeg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/blog/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+          Array
+              .from(document.querySelectorAll('.tab-content'))
+              .forEach($tab => {
+                  $tab.classList.add('is-hidden');
+              });
+          Array
+              .from(document.querySelectorAll('.tabs li'))
+              .forEach($tab => {
+                  $tab.classList.remove('is-active');
+              });
+          const $activeTab = document.querySelector(location.hash);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+          const $tabMenu = document.querySelector(`a[href="${location.hash}"]`);
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/blog/"><img src="/blog/img/profile.jpeg" alt="eryoyo的博客" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/blog/">主页</a><a class="navbar-item" href="/blog/archives">文章</a><a class="navbar-item" href="/blog/categories">类别</a><a class="navbar-item" href="/blog/tags">标签</a><a class="navbar-item" href="/blog/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/eryoyo"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-09-10T11:19:07.000Z" title="2022/9/10 下午7:19:07">2022-09-10</time>发表</span><span class="level-item"><time dateTime="2022-09-10T11:19:54.519Z" title="2022/9/10 下午7:19:54">2022-09-10</time>更新</span><span class="level-item"><a class="link-muted" href="/blog/categories/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/">离散数学</a></span><span class="level-item">8 分钟读完 (大约1216个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">离散数学学习笔记-02-命题逻辑</h1><div class="content"><h1 id="命题proposition"><a href="#命题proposition" class="headerlink" title="命题proposition"></a>命题proposition</h1><p>非真既假的普通陈述句，真值true&#x2F;false唯一确定，（本命题是假的）和（本命题是真的）不是命题</p>
+<span id="more"></span>
+<h2 id="命题变元或命题变项proposition-variables"><a href="#命题变元或命题变项proposition-variables" class="headerlink" title="命题变元或命题变项proposition variables"></a>命题变元或命题变项proposition variables</h2><p>小写英文字母表示</p>
+<ul>
+<li>原子命题：atom proposition&#x2F;简单命题 simple proposition</li>
+<li>复合命题：compound proposition</li>
+</ul>
+<h2 id="命题联结词proposition-connective或命题运算符proposition-operator"><a href="#命题联结词proposition-connective或命题运算符proposition-operator" class="headerlink" title="命题联结词proposition connective或命题运算符proposition operator"></a>命题联结词proposition connective或命题运算符proposition operator</h2><ul>
+<li>否定词：$\sim p，非p$</li>
+<li>合取词：$conjunction,p \bigwedge q,p且q$</li>
+<li>析取词：$disjunction,p \bigvee q, p或q$</li>
+<li>异或词：$exclusive\ or,p \bigoplus q,p和q真值相同时为假$</li>
+<li>蕴涵词：$implication，p \Rightarrow q，p真q假时p \Rightarrow q为假$<br>$p$：前提(premise)，$q$：结论(conclusion)<br>$p$是$q$的充分条件，$q$是$p$的必要条件<br>对于命题$p \Rightarrow q$，$q \Rightarrow p$为其逆命题，$-p \Rightarrow -q$为其否命题，$-q \Rightarrow -p$为其逆否命题</li>
+<li>等价词：$equivalence，p \Leftrightarrow q，p和q真值相同时为真，双条件，p是q的充分必要条件，p和q等价$</li>
+</ul>
+<h1 id="命题公式及其分类"><a href="#命题公式及其分类" class="headerlink" title="命题公式及其分类"></a>命题公式及其分类</h1><h2 id="命题公式-well-formed-formula-wff"><a href="#命题公式-well-formed-formula-wff" class="headerlink" title="命题公式(well formed formula, wff)"></a>命题公式(well formed formula, wff)</h2><p>合式公式，简称公式</p>
+<ul>
+<li>单个命题变项变项$p,q,r,\cdots$是命题公式</li>
+<li>如果$A$是命题公式，那么$\sim A$也是命题公式</li>
+<li>如果$A$和$B$是命题公式，那么由逻辑联结词连接的符号串也是命题公式</li>
+<li>有限次应用上面三条构成的符号串才是命题公式，只有用命题公式表示的符号串才是命题，且该公式的每一命题变项真值确定</li>
+<li>${\sim} \gt {\bigwedge,\bigvee} \gt {\Rightarrow,\Leftrightarrow}$</li>
+</ul>
+<h2 id="n元命题公式"><a href="#n元命题公式" class="headerlink" title="n元命题公式"></a>n元命题公式</h2><p>n元命题公式：含有n个命题变项的命题公式$(p_1,p_2,p_3,\cdots,p_n)$</p>
+<ul>
+<li>对变项组$(p_1,p_2,p_3,\cdots,p_n)$指定的一组确定真值称为该公式的一个<strong>真值指派或赋值</strong>，若使之真值为真，则称这组值为<strong>成真指派或成真赋值</strong>，若使之真值为假，则称这组值为<strong>成假指派或成假赋值</strong></li>
+<li>真值表truth table：$2^n$行对应$2^n$个真值指派</li>
+<li>若所有$2^n$个赋值都是成真赋值，则称A为永真式或重言式tautology</li>
+<li>若所有$2^n$个赋值都是成假赋值，则称A为永假式或矛盾式contradiction</li>
+<li>若至少存在一个成真指派，则称A为可满足式，satisfiable formula</li>
+<li>若至少存在一个成真指派和一个成假指派，则称A为非重言的可满足式</li>
+<li>两个重言式或两个矛盾式的析取或合取任然是重言式、矛盾式</li>
+<li>结果可能为真可能为假为不定式contingency</li>
+<li>如果一个命题公式是重言式，则一定是不定式</li>
+</ul>
+<h1 id="命题逻辑的等值演算"><a href="#命题逻辑的等值演算" class="headerlink" title="命题逻辑的等值演算"></a>命题逻辑的等值演算</h1><p>等值equivalent，逻辑等值logically equivalent<br>$A \Leftrightarrow B$是一个重言式，记作$A \equiv B$，称$A \equiv B$为等值式，表示对于任意的真值指派，A、B的真值均相同<br>证明两公式等值：真值表法、等值演算法<br>证明两公式不等值：找出一个真值指派使一个真值为真一个为假</p>
+<h2 id="基本等值式"><a href="#基本等值式" class="headerlink" title="基本等值式"></a>基本等值式</h2><p>假设$p,q,r$为任意命题</p>
+<ul>
+<li>双重否定率：$p \equiv \sim(\sim p)$</li>
+<li>幂等律：$p \bigvee p \equiv p,p \bigwedge p \equiv p$</li>
+<li>交换律：$p \bigvee q \equiv q \bigvee p, p \bigwedge q \equiv q \bigwedge p$</li>
+<li>结合律：$(p \bigvee q) \bigvee r \equiv p \bigvee (q \bigvee r),(p \bigwedge q) \bigwedge r \equiv p \bigwedge (q \bigwedge r)$</li>
+<li>分配率：$p \bigvee (q \bigwedge r) \equiv (p \bigvee q) \bigwedge (p \bigvee r),p \bigwedge (q \bigvee r) \equiv (p \bigwedge q) \bigvee (p \bigwedge r)$</li>
+<li>德摩根律：$\sim(p \bigvee q) \equiv (\sim p) \bigwedge (\sim q),\sim(p \bigwedge q) \equiv (\sim p) \bigvee (\sim q)$</li>
+<li>吸收律：$p \bigvee (p \bigwedge q) \equiv p,p \bigwedge (p \bigvee q) \equiv p$</li>
+<li>零律：$p \bigvee T \equiv T,p \bigwedge F \equiv F$</li>
+<li>同一律：$p \bigvee F \equiv p,p \bigwedge T \equiv p$</li>
+<li>排中律：$p \bigvee \sim p \equiv T$</li>
+<li>矛盾律：$p \bigwedge \sim p \equiv F$</li>
+<li>蕴含等值式：$p \Rightarrow q \equiv \sim p \bigvee q$</li>
+<li>等价等值式：$p \Leftrightarrow q \equiv (p \Rightarrow q) \bigwedge (q \Rightarrow p)$</li>
+<li>假言易位：$p \Rightarrow q \equiv (\sim q)  \Rightarrow (\sim p)$</li>
+<li>等价否定等值式：$p \Leftrightarrow q \equiv \sim p \Leftrightarrow \sim q$</li>
+<li>归谬论：$(p \Rightarrow q) \bigwedge (p \Rightarrow \sim q) \equiv \sim p$</li>
+</ul>
+<p>代入规则：假设A是一个重言式，那么A里的命题变项每一项替换为别的，不论真值如何，替换以后任然为重言式<br>置换规则：若$A \equiv B$，则用命题公式B替换命题公式$\Phi(A)$中的A后形成的$\Phi(B)$(不一定替换每一处），$\Phi(A) \equiv \Phi(B)$</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>离散数学学习笔记-02-命题逻辑</p><p><a href="https://eryoyo.github.io/blog/2022/09/10/离散数学学习笔记-02-命题逻辑/">https://eryoyo.github.io/blog/2022/09/10/离散数学学习笔记-02-命题逻辑/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>eryoyo</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2022-09-10</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2022-09-10</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/blog/tags/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/">离散数学</a></div><div class="a2a_kit a2a_kit_size_32 a2a_default_style"><a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a><a class="a2a_button_facebook"></a><a class="a2a_button_twitter"></a><a class="a2a_button_telegram"></a><a class="a2a_button_whatsapp"></a><a class="a2a_button_reddit"></a></div><script src="https://static.addtoany.com/menu/page.js" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="/blog/" alt="支付宝"></span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="/blog/" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/blog/2022/09/10/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-02-%E5%AF%B9%E5%81%B6%E5%92%8C%E8%8C%83%E5%BC%8F/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">离散数学学习笔记-02-对偶和范式</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/blog/2022/09/10/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-01-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"><span class="level-item">离散数学学习笔记-01-基础知识</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://eryoyo.github.io/blog/2022/09/10/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-02-%E5%91%BD%E9%A2%98%E9%80%BB%E8%BE%91/';
+            this.page.identifier = '2022/09/10/离散数学学习笔记-02-命题逻辑/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'blog-eryoyo' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/blog/img/profile.jpeg" alt="eryoyo"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">eryoyo</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>北京</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/blog/archives"><p class="title">25</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/blog/categories"><p class="title">9</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/blog/tags"><p class="title">10</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/eryoyo" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/eryoyo"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Zhihu" href="https://www.zhihu.com/people/er-yo-49"><i class="fab fa-zhihu"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Csdn" href="https://blog.csdn.net/weixin_44994838"><i class="fab fa-drupal"></i></a></div></div></div><!--!--><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/blog/categories/linux/"><span class="level-start"><span class="level-item">linux</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/blog/categories/%E4%B8%AA%E4%BA%BA%E5%B0%8F%E8%AE%B0/"><span class="level-start"><span class="level-item">个人小记</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/blog/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"><span class="level-start"><span class="level-item">刷题笔记</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/blog/categories/%E5%8D%9C%E7%AE%97%E6%B3%95/"><span class="level-start"><span class="level-item">卜算法</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/blog/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E5%AE%8F%E6%AF%85/"><span class="level-start"><span class="level-item">机器学习-李宏毅</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/blog/categories/%E6%A8%A1%E5%BC%8F%E8%AF%86%E5%88%AB%E4%B8%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">模式识别与机器学习</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/blog/categories/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/"><span class="level-start"><span class="level-item">离散数学</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/blog/categories/%E7%BD%91%E7%AB%99%E5%88%9B%E5%BB%BA/"><span class="level-start"><span class="level-item">网站创建</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/blog/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/"><span class="level-start"><span class="level-item">自然语言处理</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-09-10T11:27:35.000Z">2022-09-10</time></p><p class="title"><a href="/blog/2022/09/10/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-lecture2-%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%804-%E4%BF%A1%E6%81%AF%E8%AE%BA/">自然语言处理学习笔记-lecture2-数学基础4-信息论</a></p><p class="categories"><a href="/blog/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-09-10T11:26:20.000Z">2022-09-10</time></p><p class="title"><a href="/blog/2022/09/10/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-lecture2-%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%803-%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/">自然语言处理学习笔记-lecture2-数学基础3-线性代数</a></p><p class="categories"><a href="/blog/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-09-10T11:25:42.000Z">2022-09-10</time></p><p class="title"><a href="/blog/2022/09/10/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-lecture2-%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%802-%E6%A6%82%E7%8E%87%E8%AE%BA/">自然语言处理学习笔记-lecture2-数学基础2-概率论</a></p><p class="categories"><a href="/blog/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-09-10T11:24:28.000Z">2022-09-10</time></p><p class="title"><a href="/blog/2022/09/10/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-lecture2-%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%801-%E5%BE%AE%E7%A7%AF%E5%88%86/">自然语言处理学习笔记-lecture2-数学基础1-微积分</a></p><p class="categories"><a href="/blog/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-09-10T11:22:21.000Z">2022-09-10</time></p><p class="title"><a href="/blog/2022/09/10/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-03-%E8%B0%93%E8%AF%8D/">离散数学学习笔记-03-谓词</a></p><p class="categories"><a href="/blog/categories/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/">离散数学</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/blog/archives/2022/09/"><span class="level-start"><span class="level-item">九月 2022</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/blog/archives/2022/08/"><span class="level-start"><span class="level-item">八月 2022</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/blog/archives/2022/05/"><span class="level-start"><span class="level-item">五月 2022</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/blog/archives/2022/04/"><span class="level-start"><span class="level-item">四月 2022</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/blog/tags/docker/"><span class="tag">docker</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/hexo/"><span class="tag">hexo</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/icarus/"><span class="tag">icarus</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/makefile/"><span class="tag">makefile</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/%E5%9F%BA%E7%A1%80/"><span class="tag">基础</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="tag">机器学习</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/%E6%A8%A1%E5%BC%8F%E8%AF%86%E5%88%AB/"><span class="tag">模式识别</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/"><span class="tag">离散数学</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/%E7%AE%97%E6%B3%95/"><span class="tag">算法</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/"><span class="tag">自然语言处理</span><span class="tag">5</span></a></div></div></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/blog/"><img src="/blog/img/profile.jpeg" alt="eryoyo的博客" height="28"></a><p class="is-size-7"><span>&copy; 2022 eryoyo</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/eryoyo"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/blog/js/column.js"></script><script src="/blog/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/blog/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/blog/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/blog/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/blog/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
