@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>刷题基础1 - eryoyo的博客</title><link rel="manifest" href="/blog/manifest.json"><meta name="theme-color" content="#3273dc"><meta name="application-name" content="eryoyo的"><meta name="msapplication-TileImage" content="/img/profile.jpeg"><meta name="msapplication-TileColor" content="#3273dc"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="eryoyo的"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" sizes="144x144" href="/img/profile.jpeg"><meta name="description" content="主要总结使用C++刷题时会使用的一些基础知识"><meta property="og:type" content="blog"><meta property="og:title" content="刷题基础1"><meta property="og:url" content="https://eryoyo.github.io/blog/2022/04/29/%E5%88%B7%E9%A2%98%E5%9F%BA%E7%A1%801/"><meta property="og:site_name" content="eryoyo的博客"><meta property="og:description" content="主要总结使用C++刷题时会使用的一些基础知识"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://eryoyo.github.io/blog/img/og_image.png"><meta property="article:published_time" content="2022-04-29T07:12:48.000Z"><meta property="article:modified_time" content="2022-04-29T08:58:26.198Z"><meta property="article:author" content="eryoyo"><meta property="article:tag" content="基础"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/blog/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://eryoyo.github.io/blog/2022/04/29/%E5%88%B7%E9%A2%98%E5%9F%BA%E7%A1%801/"},"headline":"刷题基础1","image":["https://eryoyo.github.io/blog/img/og_image.png"],"datePublished":"2022-04-29T07:12:48.000Z","dateModified":"2022-04-29T08:58:26.198Z","author":{"@type":"Person","name":"eryoyo"},"publisher":{"@type":"Organization","name":"eryoyo的博客","logo":{"@type":"ImageObject","url":"https://eryoyo.github.io/img/profile.jpeg"}},"description":"主要总结使用C++刷题时会使用的一些基础知识"}</script><link rel="canonical" href="https://eryoyo.github.io/blog/2022/04/29/%E5%88%B7%E9%A2%98%E5%9F%BA%E7%A1%801/"><link rel="icon" href="/blog/img/profile.jpeg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/blog/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>图像处理学习笔记-03-灰度变换与空间滤波-模糊技术 - eryoyo的博客</title><link rel="manifest" href="/blog/manifest.json"><meta name="theme-color" content="#3273dc"><meta name="application-name" content="eryoyo的"><meta name="msapplication-TileImage" content="/img/profile.jpeg"><meta name="msapplication-TileColor" content="#3273dc"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="eryoyo的"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" sizes="144x144" href="/img/profile.jpeg"><meta name="description" content="混合空间增强法将多种图像增强方法结合起来，完成困难的图像增强任务"><meta property="og:type" content="blog"><meta property="og:title" content="图像处理学习笔记-03-灰度变换与空间滤波-模糊技术"><meta property="og:url" content="https://eryoyo.github.io/blog/2022/09/24/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-03-%E7%81%B0%E5%BA%A6%E5%8F%98%E6%8D%A2%E4%B8%8E%E7%A9%BA%E9%97%B4%E6%BB%A4%E6%B3%A2-%E6%A8%A1%E7%B3%8A%E6%8A%80%E6%9C%AF/"><meta property="og:site_name" content="eryoyo的博客"><meta property="og:description" content="混合空间增强法将多种图像增强方法结合起来，完成困难的图像增强任务"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://img-blog.csdnimg.cn/41441ba87d8e490593a194a7bded5f50.png"><meta property="og:image" content="https://img-blog.csdnimg.cn/0b82d240e4304015b298d4652b291530.png"><meta property="og:image" content="https://img-blog.csdnimg.cn/4c140d4ebe8e4fb481fb59330e98ff4c.png"><meta property="og:image" content="https://img-blog.csdnimg.cn/05d0bd62d30643b4aee38521ead73cd5.png"><meta property="og:image" content="https://img-blog.csdnimg.cn/172d27bfc94c49b68fd6ee47cc45fc10.png"><meta property="og:image" content="https://img-blog.csdnimg.cn/1b352e8002f44bd497b31a78a526dd03.png"><meta property="og:image" content="https://img-blog.csdnimg.cn/02c17de161064689afb23f8fa10a4d7d.png"><meta property="article:published_time" content="2022-09-23T16:32:42.000Z"><meta property="article:modified_time" content="2022-09-23T16:33:33.441Z"><meta property="article:author" content="eryoyo"><meta property="article:tag" content="图像处理"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="https://img-blog.csdnimg.cn/41441ba87d8e490593a194a7bded5f50.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://eryoyo.github.io/blog/2022/09/24/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-03-%E7%81%B0%E5%BA%A6%E5%8F%98%E6%8D%A2%E4%B8%8E%E7%A9%BA%E9%97%B4%E6%BB%A4%E6%B3%A2-%E6%A8%A1%E7%B3%8A%E6%8A%80%E6%9C%AF/"},"headline":"图像处理学习笔记-03-灰度变换与空间滤波-模糊技术","image":["https://img-blog.csdnimg.cn/41441ba87d8e490593a194a7bded5f50.png","https://img-blog.csdnimg.cn/0b82d240e4304015b298d4652b291530.png","https://img-blog.csdnimg.cn/4c140d4ebe8e4fb481fb59330e98ff4c.png","https://img-blog.csdnimg.cn/05d0bd62d30643b4aee38521ead73cd5.png","https://img-blog.csdnimg.cn/172d27bfc94c49b68fd6ee47cc45fc10.png","https://img-blog.csdnimg.cn/1b352e8002f44bd497b31a78a526dd03.png","https://img-blog.csdnimg.cn/02c17de161064689afb23f8fa10a4d7d.png"],"datePublished":"2022-09-23T16:32:42.000Z","dateModified":"2022-09-23T16:33:33.441Z","author":{"@type":"Person","name":"eryoyo"},"publisher":{"@type":"Organization","name":"eryoyo的博客","logo":{"@type":"ImageObject","url":"https://eryoyo.github.io/img/profile.jpeg"}},"description":"混合空间增强法将多种图像增强方法结合起来，完成困难的图像增强任务"}</script><link rel="canonical" href="https://eryoyo.github.io/blog/2022/09/24/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-03-%E7%81%B0%E5%BA%A6%E5%8F%98%E6%8D%A2%E4%B8%8E%E7%A9%BA%E9%97%B4%E6%BB%A4%E6%B3%A2-%E6%A8%A1%E7%B3%8A%E6%8A%80%E6%9C%AF/"><link rel="icon" href="/blog/img/profile.jpeg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/blog/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
   (function () {
       function switchTab() {
           if (!location.hash) {
@@ -27,96 +27,51 @@
       switchTab();
       window.addEventListener('hashchange', switchTab, false);
   })();
-  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/blog/"><img src="/blog/img/profile.jpeg" alt="eryoyo的博客" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/blog/">主页</a><a class="navbar-item" href="/blog/archives">文章</a><a class="navbar-item" href="/blog/categories">类别</a><a class="navbar-item" href="/blog/tags">标签</a><a class="navbar-item" href="/blog/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/eryoyo"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-04-29T07:12:48.000Z" title="2022/4/29 下午3:12:48">2022-04-29</time>发表</span><span class="level-item"><time dateTime="2022-04-29T08:58:26.198Z" title="2022/4/29 下午4:58:26">2022-04-29</time>更新</span><span class="level-item"><a class="link-muted" href="/blog/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/">刷题笔记</a></span><span class="level-item">6 分钟读完 (大约958个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">刷题基础1</h1><div class="content"><p>主要总结使用C++刷题时会使用的一些基础知识</p>
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/blog/"><img src="/blog/img/profile.jpeg" alt="eryoyo的博客" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/blog/">主页</a><a class="navbar-item" href="/blog/archives">文章</a><a class="navbar-item" href="/blog/categories">类别</a><a class="navbar-item" href="/blog/tags">标签</a><a class="navbar-item" href="/blog/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/eryoyo"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-09-23T16:32:42.000Z" title="2022/9/24 上午12:32:42">2022-09-24</time>发表</span><span class="level-item"><time dateTime="2022-09-23T16:33:33.441Z" title="2022/9/24 上午12:33:33">2022-09-24</time>更新</span><span class="level-item"><a class="link-muted" href="/blog/categories/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">图像处理</a></span><span class="level-item">10 分钟读完 (大约1506个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">图像处理学习笔记-03-灰度变换与空间滤波-模糊技术</h1><div class="content"><h1 id="混合空间增强法"><a href="#混合空间增强法" class="headerlink" title="混合空间增强法"></a>混合空间增强法</h1><p>将多种图像增强方法结合起来，完成困难的图像增强任务</p>
 <span id="more"></span>
-
+<p><img src="https://img-blog.csdnimg.cn/41441ba87d8e490593a194a7bded5f50.png" alt="混合空间增强法的例子"></p>
+<h1 id="使用模糊技术进行灰度变换和空间滤波"><a href="#使用模糊技术进行灰度变换和空间滤波" class="headerlink" title="使用模糊技术进行灰度变换和空间滤波"></a>使用模糊技术进行灰度变换和空间滤波</h1><p>目的：例如将人分为年轻人和非年轻人，使用一个确定的阈值例如20岁，那么20岁过1秒的人也属于非年轻人，我们需要更加弹性的在年轻和非年轻之间过渡</p>
+<h2 id="模糊集合论原理"><a href="#模糊集合论原理" class="headerlink" title="模糊集合论原理"></a>模糊集合论原理</h2><p>$Z$是一个元素集，$z$表示$Z$的一类元素，即$Z &#x3D; {z}$，该集合称为论域，<strong>模糊集合</strong>$A$由隶属度函数$\mu_A(z)$来表征：<br>$$<br>A &#x3D; {z,\mu_A(z)|z \in Z}<br>$$<br>当隶属度函数值为1表示该元素是集合的完全成员，隶属度函数值位于0和1之间表示<strong>在集合中的隶属度等级为隶属度函数值</strong>，隶属度函数值为0表示该元素不属于该集合</p>
 <ul>
-<li><p>cstdio头文件：程序中处理输入输出</p>
-</li>
-<li><p>scanf printf %d %lld f% lf% c% s%</p>
-</li>
-<li><p>变量类型：int(9), long long(18), float(128), double(1024), char(127), bool(0,1)</p>
-</li>
-<li><p>0~9(48~57),A~Z(65~90),a~z(97~122)</p>
-</li>
-<li><p>^相同为0，不同为1</p>
-</li>
-<li><p>scanf(“%d:%d:%d”, &amp;hh, &amp;mm, &amp;ss)</p>
-</li>
-<li><p>除了%c以外，scanf对其他格式符例如%d、s%的输入是以空白符（空格、Tab）为结束判断标志的</p>
-</li>
-<li><p>%md:保持m位右对齐输出，不足m位用空格补齐</p>
-</li>
-<li><p>%0md:用0补齐</p>
-</li>
-<li><p>%.mf:使浮点数保留m位小数输出</p>
-</li>
-<li><p>getchar:输入单个字符，可识别换行符，putchar:输出单个字符</p>
-</li>
-<li><p>typedef long long ll:给long long起一个别名ll</p>
-</li>
-<li><p>math函数：fabs(取浮点数绝对值),floor,ceil(向下、上取整)，pow(a, b):返回a的b次方，sqrt:算术平方根，log:以自然对数为底的对数，没有对任意底数求对数的函数，使用换底公式：以a为底b的对数&#x3D;以自然对数为底b的对数除以以自然对数为底a的对数，sin,cos,tan,asin,acos,atan,pi&#x3D;acos(-1.0)，round四舍五入</p>
-</li>
-<li><p>给数组赋初值0：int a[10] &#x3D; {0}</p>
-</li>
-<li><p>当数组较大时应该定义在主函数的外面10^6</p>
-</li>
-<li><p>memset(数组名， 值， sizeof(数组名)):为数组里面的每一个元素赋相同的初值, string.h头文件，值&#x3D;0赋全0，值&#x3D;-1赋全1</p>
-</li>
-<li><p>字符串数组赋初值可以用字符串”hello world”</p>
-</li>
-<li><p>scanf,printf输入输出：c%识别空格和换行，s%以空格和换行作为分隔符</p>
-</li>
-<li><p>getchar(),putchar(char)输入输出：识别换行符</p>
-</li>
-<li><p>gets(str),puts(str)输入输出：以换行符作为分隔符</p>
-</li>
-<li><p>字符数组的末尾有\0,表示空字符，占用一个字符位</p>
-</li>
-<li><p>gets和printf会在末尾自动添加，此外需要自己添加\0</p>
-</li>
-<li><p>string.h</p>
-<p>  strlen(字符数组):返回\0字符前的字符个数，不包含\0</p>
-<p>  strcmp(字符数组a，字符数组b)：字典序排序, a &#x3D;&#x3D; b:返回0, a &lt; b:返回负数, a &gt; b:返回正数</p>
-<p>  strcpy(字符数组a，字符数组b):将b复制给a,包括\0</p>
-<p>  strcat(字符数组a，字符数组b):将b拼接到a后面</p>
-</li>
-<li><p>sscanf(str, “%d”, &amp;n):将str以整数的格式输出到n</p>
-<p>  sprintf(str, “%d”, n):将n以整数的格式写到字符数组中</p>
-</li>
-<li><p>数组作为函数参数的时候，第一维不需要填写长度，第二维需要, 不允许返回数组</p>
-</li>
-<li><p>指针变量支持加减法操作和自增自减操作，操作单位为其基类型，例如int为其基类型, 储存的是int类型变量的地址，那么＋1之后指向当前变量的下一个int</p>
-</li>
-<li><p>数组名称可作为数组的首地址来使用</p>
-</li>
-<li><p>指针的引用：int* &amp;p指针本质也是一个无符号整数，所以可以使用引用</p>
-</li>
-<li><p>cin和cout:iostream</p>
-<p>  char str[100];  cin.getline(str, 100);</p>
-<p>  string str; getline(cin, str);</p>
-<p>  cout设置小数精度：头文件iomanip, cout&lt;&lt;setiosflags(ios::fixed)&lt;&lt;setprecision(2)&lt;&lt;123.4567&lt;&lt;endl输出123.46</p>
-</li>
-<li><p>浮点数的比较：</p>
-<p>  const double eps &#x3D; 1e-8</p>
-<p>  #define Equal(a, b) ((fabs((a) - (b))) &lt; (eps))</p>
-</li>
-<li><p>圆周率π：const double pi &#x3D; acos(-1.0)</p>
-</li>
-<li><p>0.00输出为-0.00只能先将结果存到字符串中然后与-0.00比较配合eps修正为0.00</p>
-</li>
-<li><p>sqrt,asin,acos配合eps使得变量在定义域内</p>
-</li>
-<li><p>scanf有返回值，代表成功读入的参数个数，如果读取失败则返回EOF</p>
-<p>  while(scanf(“%d”, &amp;n) !&#x3D; EOF)</p>
-<p>  while(gets(str) !&#x3D; NULL)</p>
-</li>
-<li><p>用一个结构体给另一个结构体赋值的时候，结构体里面假如有字符串数组，赋值的过程中不是用的地址，而是地址上面的值</p>
-</li>
+<li>空集：$Z$中的隶属度函数值为0，模糊集合为空集；</li>
+<li>相等：当且仅当对于所有的$z \in Z,\mu_A(z) &#x3D; \mu_B(z)$，则称两个模糊集合$A$和$B$相等；</li>
+<li>补集：由$\overline{A}$或$NOT(A)$表示模糊集合$A$的补集，定义其隶属度函数为：<br>$$<br>\mu_{\overline{A}}(z) &#x3D; 1 - \mu_A(z)<br>$$</li>
+<li>子集：当且仅当对于所有的$z \in Z$有：<br>$$<br>\mu_A(z) \leq \mu_B(z)<br>$$<br>此时，模糊集合$A$是模糊集合$B$的子集；</li>
+<li>并集：</li>
+<li>对于所有的$z \in Z$，具有隶属度函数：<br>$$<br>\mu_U(z) &#x3D; max[\mu_A(z),\mu_B(z)]<br>$$<br>的并集$U$表示为$A \bigcup B$或$A\ OR\ B$</li>
+<li>对于所有的$z \in Z$，具有隶属度函数：<br>$$<br>\mu_I(z) &#x3D; min[\mu_A(z),\mu_B(z)]<br>$$<br>的交集$I$表示为$A \bigcap B$或$A\ AND\ B$</li>
 </ul>
-</div><div class="article-licensing box"><div class="licensing-title"><p>刷题基础1</p><p><a href="https://eryoyo.github.io/blog/2022/04/29/刷题基础1/">https://eryoyo.github.io/blog/2022/04/29/刷题基础1/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>eryoyo</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2022-04-29</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2022-04-29</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/blog/tags/%E5%9F%BA%E7%A1%80/">基础</a></div><div class="a2a_kit a2a_kit_size_32 a2a_default_style"><a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a><a class="a2a_button_facebook"></a><a class="a2a_button_twitter"></a><a class="a2a_button_telegram"></a><a class="a2a_button_whatsapp"></a><a class="a2a_button_reddit"></a></div><script src="https://static.addtoany.com/menu/page.js" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="/blog/" alt="支付宝"></span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="/blog/" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/blog/2022/04/29/%E5%88%B7%E9%A2%98%E5%9F%BA%E7%A1%802/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">刷题基础2</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/blog/2022/04/29/linux%E7%B3%BB%E7%BB%9F%E4%B8%ADmakefile%E4%B9%A6%E5%86%99%E8%A7%84%E5%88%99/"><span class="level-item">linux系统中makefile书写规则</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
-            this.page.url = 'https://eryoyo.github.io/blog/2022/04/29/%E5%88%B7%E9%A2%98%E5%9F%BA%E7%A1%801/';
-            this.page.identifier = '2022/04/29/刷题基础1/';
+<h2 id="模糊集合应用"><a href="#模糊集合应用" class="headerlink" title="模糊集合应用"></a>模糊集合应用</h2><p>假设生的水果是绿色的，半熟的水果是黄色的，成熟的水果是红色的，对应规则集：</p>
+<ul>
+<li>$R_1$：IF颜色是绿色，THEN水果是生的</li>
+<li>$R_2$：IF颜色是黄色，THEN水果是半熟的</li>
+<li>$R_3$：IF颜色是红色，THEN水果是熟的</li>
+</ul>
+<p>颜色采用波长这一值来表示，下图表示不同的波长对应不同颜色的隶属度，也就是输入的隶属度函数：<br><img src="https://img-blog.csdnimg.cn/0b82d240e4304015b298d4652b291530.png" alt="不同波长对不同颜色的隶属度"><br>输出本身也是模糊的：<br><img src="https://img-blog.csdnimg.cn/4c140d4ebe8e4fb481fb59330e98ff4c.png" alt="成熟度对不同成熟度的隶属度函数"><br>以红色$AND$成熟规则$R_3$为例，这是一个二维的隶属度函数，表示为一个笛卡尔积$(z,v)$到$[0,1]$的映射：<br>$$<br>\mu_3(z,v) &#x3D; min{\mu_{red}(z),\mu_{mat}(v)}<br>$$<br>上式是一个通用解，此时一个特定的输入$z_0$，此时用$Q_3(v)$表示，$c &#x3D; \mu_{red}(z_0)$，唯一的变量为$v$：<br>$$<br>Q_3(v) &#x3D; min{\mu_{red}(z_0),\mu_{mat}(z_0,v)}<br>$$<br><img src="https://img-blog.csdnimg.cn/05d0bd62d30643b4aee38521ead73cd5.png" alt="给定输入z之后得到的隶属度函数"><br>同理，我们可以得到另外两个规则和输入$z_0$导致的模糊响应：<br>$$<br>Q_1(v) &#x3D; min{\mu_{green}(z_0),\mu_{1}(z_0,v)} \<br>Q_2(v) &#x3D; min{\mu_{yellow}(z_0),\mu_{2}(z_0,v)}<br>$$<br>由于三个规则之间是通过$OR$操作连接起来的：<br>$$<br>Q &#x3D; Q_1 \ OR \ Q_2 \ OR \ Q_3<br>$$<br>所以我们可以得到结果如下：$r &#x3D; {1,2,3},s &#x3D; {绿色,黄色,红色}$，见下图<br>$$<br>Q(v) &#x3D; \mathop{max}\limits_{r} \left{ \mathop{min}\limits_{s} \left{ \mu_s(z_0),\mu_r(z_0,v)\right}\right}<br>$$<br><img src="https://img-blog.csdnimg.cn/172d27bfc94c49b68fd6ee47cc45fc10.png" alt="在z0条件下的隶属度函数"><br>之后进行去模糊操作求出一个干脆的输出$v_0$，计算集合的重心，假设$Q(v)$有$K$种取值：<br>$$<br>v_0 &#x3D; \frac{\sum_{v &#x3D; 1}^KvQ(v)}{\sum_{v &#x3D; 1}^KQ(v)}<br>$$<br>得到$v_0 &#x3D; 72.3$，指出给定的颜色$z_0$成熟度约为$72%$</p>
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a><strong>总结</strong>：</h3><ul>
+<li>模糊输入：对于每个标量输入，例如颜色，使用隶属度函数找到相应的模糊值；</li>
+<li>合并各个部分的输出，利用模糊集合操作交和并，例如前提为绿色或坚硬，合并时用$OR$；</li>
+<li>每一个规则，例如红色$AND$成熟，前提和输出之间使用$AND$连接；</li>
+<li>将不同的规则聚合起来，使用$OR$操作；</li>
+<li>将最后输出的模糊集合去模糊操作，得到一个干脆的标量输出，例如计算重心；</li>
+</ul>
+<h2 id="使用模糊集合进行灰度变换"><a href="#使用模糊集合进行灰度变换" class="headerlink" title="使用模糊集合进行灰度变换"></a>使用模糊集合进行灰度变换</h2><p>考虑如下的一个例子：</p>
+<ul>
+<li>IF一个像素是暗的，THEN使它较暗；</li>
+<li>IF一个像素是灰的，THEN使它仍是灰的；</li>
+<li>IF一个像素是亮的，THEN使它较亮；<br>最终得到的$Q$如下右图所示：<br><img src="https://img-blog.csdnimg.cn/1b352e8002f44bd497b31a78a526dd03.png" alt="输入和输出的隶属度函数"><br>对于任何输入$z_0$，输出$v_0$由下式给出：<br>$$<br>v_0 &#x3D; \frac{\mu_{dark}(z_0) \times v_d + \mu_{gray}(z_0) \times v_g + \mu_{bright}(z_0) \times v_b}{\mu_{dark}(z_0) + \mu_{gray}(z_0) + \mu_{bright}(z_0)}<br>$$</li>
+</ul>
+<h2 id="使用模糊集合进行空间滤波"><a href="#使用模糊集合进行空间滤波" class="headerlink" title="使用模糊集合进行空间滤波"></a>使用模糊集合进行空间滤波</h2><p>例如一个模糊集合概念的边缘提取算法：如果一个像素属于平滑区，则令其为白色，否则令其为黑色；这个概念可以翻译为如下的规则集：<br><img src="https://img-blog.csdnimg.cn/02c17de161064689afb23f8fa10a4d7d.png" alt="示例邻域"><br>如图为邻域，假设像素标为$z_i,i &#x3D; 1,2,\cdots,9$，$d_i$表示第$i$个邻点和中心点的灰度差$d_i &#x3D; z_i - z_5$</p>
+<ul>
+<li>$IF\ d_2 &#x3D; 0 \ AND \ d_6 &#x3D; 0\ THEN\ z_5 &#x3D; 白色$</li>
+<li>$IF\ d_6 &#x3D; 0 \ AND \ d_8 &#x3D; 0\ THEN\ z_5 &#x3D; 白色$</li>
+<li>$IF\ d_8 &#x3D; 0 \ AND \ d_4 &#x3D; 0\ THEN\ z_5 &#x3D; 白色$</li>
+<li>$IF\ d_4 &#x3D; 0 \ AND \ d_2 &#x3D; 0\ THEN\ z_5 &#x3D; 白色$</li>
+<li>$ELSE\ z_5 &#x3D; 黑色$</li>
+</ul>
+</div><div class="article-licensing box"><div class="licensing-title"><p>图像处理学习笔记-03-灰度变换与空间滤波-模糊技术</p><p><a href="https://eryoyo.github.io/blog/2022/09/24/图像处理学习笔记-03-灰度变换与空间滤波-模糊技术/">https://eryoyo.github.io/blog/2022/09/24/图像处理学习笔记-03-灰度变换与空间滤波-模糊技术/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>eryoyo</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2022-09-24</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2022-09-24</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/blog/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">图像处理</a></div><div class="a2a_kit a2a_kit_size_32 a2a_default_style"><a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a><a class="a2a_button_facebook"></a><a class="a2a_button_twitter"></a><a class="a2a_button_telegram"></a><a class="a2a_button_whatsapp"></a><a class="a2a_button_reddit"></a></div><script src="https://static.addtoany.com/menu/page.js" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="/blog/" alt="支付宝"></span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="/blog/" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/blog/2022/09/22/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-03-%E7%81%B0%E5%BA%A6%E5%8F%98%E6%8D%A2%E4%B8%8E%E7%A9%BA%E9%97%B4%E6%BB%A4%E6%B3%A2/"><span class="level-item">图像处理学习笔记-03-灰度变换与空间滤波</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://eryoyo.github.io/blog/2022/09/24/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-03-%E7%81%B0%E5%BA%A6%E5%8F%98%E6%8D%A2%E4%B8%8E%E7%A9%BA%E9%97%B4%E6%BB%A4%E6%B3%A2-%E6%A8%A1%E7%B3%8A%E6%8A%80%E6%9C%AF/';
+            this.page.identifier = '2022/09/24/图像处理学习笔记-03-灰度变换与空间滤波-模糊技术/';
         };
         (function() {
             var d = document, s = d.createElement('script');  
