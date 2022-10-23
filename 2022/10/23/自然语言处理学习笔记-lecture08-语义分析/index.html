@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>自然语言处理学习笔记-lecture08-语义分析 - eryoyo的博客</title><link rel="manifest" href="/blog/manifest.json"><meta name="theme-color" content="#3273dc"><meta name="application-name" content="eryoyo的"><meta name="msapplication-TileImage" content="/img/profile.jpeg"><meta name="msapplication-TileColor" content="#3273dc"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="eryoyo的"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" sizes="144x144" href="/img/profile.jpeg"><meta name="description" content="语义计算的任务:解释自然语言句子或篇章各部分(词、词组、句子、段落、篇章)的含义。自然语言句子中存在大量的歧义，涉及指代、同义&amp;#x2F;多义、量词的辖域、隐喻等;"><meta property="og:type" content="blog"><meta property="og:title" content="自然语言处理学习笔记-lecture08-语义分析"><meta property="og:url" content="https://eryoyo.github.io/blog/2022/10/23/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-lecture08-%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90/"><meta property="og:site_name" content="eryoyo的博客"><meta property="og:description" content="语义计算的任务:解释自然语言句子或篇章各部分(词、词组、句子、段落、篇章)的含义。自然语言句子中存在大量的歧义，涉及指代、同义&amp;#x2F;多义、量词的辖域、隐喻等;"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://eryoyo.github.io/blog/img/og_image.png"><meta property="article:published_time" content="2022-10-23T15:04:19.000Z"><meta property="article:modified_time" content="2022-10-23T15:05:25.781Z"><meta property="article:author" content="eryoyo"><meta property="article:tag" content="自然语言处理"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/blog/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://eryoyo.github.io/blog/2022/10/23/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-lecture08-%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90/"},"headline":"自然语言处理学习笔记-lecture08-语义分析","image":["https://eryoyo.github.io/blog/img/og_image.png"],"datePublished":"2022-10-23T15:04:19.000Z","dateModified":"2022-10-23T15:05:25.781Z","author":{"@type":"Person","name":"eryoyo"},"publisher":{"@type":"Organization","name":"eryoyo的博客","logo":{"@type":"ImageObject","url":"https://eryoyo.github.io/img/profile.jpeg"}},"description":"语义计算的任务:解释自然语言句子或篇章各部分(词、词组、句子、段落、篇章)的含义。自然语言句子中存在大量的歧义，涉及指代、同义&#x2F;多义、量词的辖域、隐喻等;"}</script><link rel="canonical" href="https://eryoyo.github.io/blog/2022/10/23/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-lecture08-%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90/"><link rel="icon" href="/blog/img/profile.jpeg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/blog/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+          Array
+              .from(document.querySelectorAll('.tab-content'))
+              .forEach($tab => {
+                  $tab.classList.add('is-hidden');
+              });
+          Array
+              .from(document.querySelectorAll('.tabs li'))
+              .forEach($tab => {
+                  $tab.classList.remove('is-active');
+              });
+          const $activeTab = document.querySelector(location.hash);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+          const $tabMenu = document.querySelector(`a[href="${location.hash}"]`);
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/blog/"><img src="/blog/img/profile.jpeg" alt="eryoyo的博客" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/blog/">主页</a><a class="navbar-item" href="/blog/archives">文章</a><a class="navbar-item" href="/blog/categories">类别</a><a class="navbar-item" href="/blog/tags">标签</a><a class="navbar-item" href="/blog/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/eryoyo"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-10-23T15:04:19.000Z" title="2022/10/23 下午11:04:19">2022-10-23</time>发表</span><span class="level-item"><time dateTime="2022-10-23T15:05:25.781Z" title="2022/10/23 下午11:05:25">2022-10-23</time>更新</span><span class="level-item"><a class="link-muted" href="/blog/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></span><span class="level-item">34 分钟读完 (大约5109个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">自然语言处理学习笔记-lecture08-语义分析</h1><div class="content"><p>语义计算的任务:解释自然语言句子或篇章各部分(词、词组、句子、段落、篇章)的含义。自然语言句子中存在大量的歧义，涉及指代、同义&#x2F;多义、量词的辖域、隐喻等;</p>
+<span id="more"></span>
+<h1 id="语义理论简介"><a href="#语义理论简介" class="headerlink" title="语义理论简介"></a>语义理论简介</h1><ul>
+<li>词的指称作为意义：该理论认为，词或词组的意义就是它们在现实世界上所指的事物。那么计算语义学的任务就是将词或词组与世界模型中的物体对应起来。常用的现实世界模型假设世界上存在各种物体，包括人。对于复杂的问题这种定义无法处理。</li>
+<li>心理图像、大脑图像或思想作为意义：该理论认为，词或词组的意义就是词或词组在人心理上或大脑中所产生的图像。在计算机中把心理图像有效地表示出来并不是一件容易的事情，而且，不一定所有的词义都有清晰的心理图像。</li>
+<li>说话者的意图作为意义：该理论试图解释语言中一种被称为言语行为(Speech Acts) 的现象。意图的定义、划分和表示是困难的。</li>
+<li>过程语义：该理论认为，句子的语义定义为接受该句后所执行的程序或者所采取的某种动作。简单明了，对于计算机智能应用系统来说，这种定义在某种程度上是有效的。对于语言本身缺乏解释，且句子的语义与应用之间的连接过于紧密，缺乏独立性。</li>
+<li>词汇分解学派：该理论把句子的语义基于它所含有的词和词组的意义之上，而词的意义则基于一组有限特征，这组特征通常称为语义基元。这样，只要给出一组语义基元和一些操作符，就可以把句子的语义描述出来。类似于化学中的元素学说。语义基元的定义、分解标准等难以把握，基元和组合操作的合理性直接影响句子语义描写的准确性，而且如何定义“操作”也是个困难的问题。</li>
+<li>条件真理模型：该理论以谓词逻辑为基础，句子的语义定义为它所对应的命题或谓词在全体模型(或世界)中的真伪。例如:“雪是白的”为真，当且仅当在这个世界上雪是白的。</li>
+<li>情景语义学：该理论认为句子的语义不仅和逻辑意义有关，而且与句子被使用的场景有关。在语义表达式中引入一些与场景相关的变量，如事件变量、时间变量等，并用逻辑“与”算子对这些变量加以限制。</li>
+<li>模态逻辑：起源于20世纪80年代初，AI。如:缺省逻辑、时态逻辑、真值维护系统等。这类逻辑是试图用一套公理系统来刻画现实世界和自然语言中常见的一些现象。“公理系统”总是刻画世界普遍成立的一般性真理，难以涵盖特殊情况下的特殊事实。</li>
+</ul>
+<h1 id="格语法"><a href="#格语法" class="headerlink" title="格语法"></a>格语法</h1><p>C. J. Fillmore 指出:诸如主语、宾语等语法关系实际上都是表层结构上的概念，在语言的底层，所需要的不是这些表层的语法关系，而是用施事、受事、工具、受益等概念所表示的句法语义关系。这些句法语义关系，经各种变换之后才在表层结构中成为主语或宾语。格语法的三条基本规则:</p>
+<ul>
+<li>$S&#x3D;M+P$<br>句子 S 可以改写成情态(Modality)和命题(Proposition) 两大部分，情态部分包括否定、时、式、体以及其他被理解为全句情态成分的状语。命题牵涉到动词和名词短语、动词和内嵌小句之间的关系，动词是句子的中心，名词短语按其特定的格属关系依附于该动词。</li>
+<li>$P\rightarrow V + C_1+C_2 + \cdots C_n$<br>命题 P 都可以改写成一个动词 V 和若干个格 C 。动词是广义上的动词，包括:动词、形容词、甚至包括名词、副词和连词。</li>
+<li>$C\rightarrow K + NP$<br>K 为格标，是各种格范畴在底层结构中的标记，可以有各种标记形式，如:前置词、后缀词、词缀、零形式等。</li>
+</ul>
+<p>格语法中的格是“深层格”，它是指句子中体词(名词、代词等)和谓词(动词、形容词等) 之间的及物性关系(transitivity)，如:动作和施事者的关系、动作和受事者的关系等，这些关系是语义关系，它是一切语言中普遍存在的现象。命题中的格包括6种:</p>
+<ul>
+<li>施事格(Agentive):动作的发生者。</li>
+<li>工具格(Instrumental):对动作或状态而言作为某种因素而牵涉到的无生命的力量或客体。</li>
+<li>承受格(Dative):由动词确定的动作或状态所影响的有生物，例如he is tall里面的he</li>
+<li>使成格(Factitive):由动词确定的动作或状态所形成的客体或有生物。或理解为:动词意义的一部分的客体或有生物。如:John dreamed about Mary里面的a dream.</li>
+<li>方位格(Locative):由动词确定的动作或状态的处所或空间方位。如:He is in the house里面的house</li>
+<li>客体格(Objective):由动词确定的动作或状态所影响的事物。如:He bought a book里面的a book.</li>
+</ul>
+<p>分析的基础如下：</p>
+<ul>
+<li>对于动词:规定它们所属的必备格、可选格或禁用格，同时填充这些格的名词的语义条件。</li>
+<li>对于名词:填充语义信息，建立名词语义分类体系。</li>
+</ul>
+<p>分析步骤：</p>
+<ul>
+<li>判断待分析词序列中主要动词，在动词词典中找出该词的格框架。</li>
+<li>识别必备格:如果格带有位置标志，则从指定位置查找格的填充物;如果格带有语法标志，则在这个分析的词序列中查找语法标志，进入相应的填充; 如果格框架还需要其它必备格，查找其它名词的语义信息，按格框架的语义信息要求进行相应的填充。</li>
+<li>识别可选格。</li>
+<li>判断句子的情态 Modal。</li>
+</ul>
+<h1 id="语义网络"><a href="#语义网络" class="headerlink" title="语义网络"></a>语义网络</h1><p>语义网络通过由概念和语义关系组成的有向图来表达知识、描述语义。<br>有向图：图的节点表示概念，图的边表示概念之间的关系，例如“是一种”和“是部分”等等，IS-A,PART-OF,IS,COMPOSED-OF,HAVE,BEFORE,LOCATED-ON，事件的语义关系包括分类关系也就是事物之间的类属关系、聚焦关系，也就是多个下位概念构成一个上位概念、推论关系，也就是由一个概念推出另一个概念、时间位置关系，也就是事实发生或存在的事件、位置<br>知识图谱是一个描述实体和实体之间关系的有向图</p>
+<h1 id="词义消歧"><a href="#词义消歧" class="headerlink" title="词义消歧"></a>词义消歧</h1><p>词义消歧问题(word sense disambiguation, WSD)</p>
+<h2 id="有监督的词义消歧方法"><a href="#有监督的词义消歧方法" class="headerlink" title="有监督的词义消歧方法"></a>有监督的词义消歧方法</h2><p>总体思路:通过建立分类器，利用划分多义词的上下文类别的方法来区分多义词的词义。</p>
+<h3 id="基于互信息的消歧方法-Brown-et-al-1991"><a href="#基于互信息的消歧方法-Brown-et-al-1991" class="headerlink" title="基于互信息的消歧方法 (Brown et al., 1991)"></a>基于互信息的消歧方法 (Brown et al., 1991)</h3><p>基本思想:假设我们有一个双语对齐的平行语料库， 以法语和英语为例，通过词语对齐模型每个法语单词可以找到对应的英语单词，一个多义的法语单词在不同的上下文中对应多种不同的英语翻译。<br>可以把一个多义的法语单词的英语译词看作是这个法语单词的语义解释，而决定法语多义词语义的条件看作是语义指示(indicator)，如:例子中法语单词 prendre 所带的宾语。因此，只要我们知道了 多义词的语义指示器，也就确定了该词在特定上下文中的语义。这样，多义词的词义消歧问题就变成了<strong>语义指示器的分类问题</strong>。假设$T_1,T_2,\cdots,T_m$是一个多义法语词的英语译文或语义，$V_1,V_2,\cdots,V_n$是指示器可能的取值</p>
+<ul>
+<li>随机的将$T_1,T_2,\cdots,T_m$划分为两个集合$P &#x3D; {P_1,P_2}$</li>
+<li>执行如下循环：<br>找到$V_1,V_2,\cdots,V_n$的一种划分$Q &#x3D; {Q_1,Q_2}$使得$Q_i$与$P_i$之间的互信息最大<br>找到一种改进的划分$P’$，使$P’$与$Q$的互信息最大</li>
+</ul>
+<p>一旦指示器的取值划分确定了，词义消解就变成了如下简单的过程:也就是根据上下文确定词义</p>
+<ul>
+<li>对于出现的歧义词确定其指示器值$V_i$</li>
+<li>如果$V_i$在$Q_1$中，指示该歧义词为语义1，如果在$Q_2$中，指示其语义为语义2</li>
+</ul>
+<h3 id="基于贝叶斯分类器的上下文分类消歧方法"><a href="#基于贝叶斯分类器的上下文分类消歧方法" class="headerlink" title="基于贝叶斯分类器的上下文分类消歧方法"></a>基于贝叶斯分类器的上下文分类消歧方法</h3><p>假设某个多义词$w$所处的上下文语境为$C$，如果某个多义词$w$的多个语义记作$s_i,i\geq 2$，那么可通过计算$\mathop{arg\ max}\limits_{s_i} p(s_i|C)$确定$w$的词义，根据贝叶斯公式：<br>$$<br>p(s_i|C) &#x3D; \frac{p(s_i)\times p(C|s_i)}{p(C)}<br>$$<br>考虑分母的不不变性，并运用如下独立性假设：<br>$$<br>p(C|s_i) &#x3D; \prod_{v_k\in C}p(v_k|s_i)<br>$$<br>因此：<br>$$<br>\hat s_i &#x3D; \mathop{arg\ max}\limits_{s_i}\left[p(s_i)\prod_{v_k\in C}p(v_k|s_i)\right]<br>$$<br>概率$p(v_k|s_i),p(s_i)$都可以用最大似然估计求得<br>$$<br>p(v_k|s_i)&#x3D; \frac{N(v_k,s_i)}{N(s_i)}<br>$$<br>其中，$N(s_i)$是在训练数据中词$w$用于语义$s_i$时的次数，而$N(v_k,s_i)$为$w$用于语义$s_i$时词$v_k$出现在$w$的上下文中的次数<br>$$<br>p(s_i) &#x3D; \frac{N(s_i)}{N(w)}<br>$$<br>$N(w)$为多义词$w$在训练数据中出现的总次数</p>
+<h3 id="基于最大熵的上下文分类消歧方法"><a href="#基于最大熵的上下文分类消歧方法" class="headerlink" title="基于最大熵的上下文分类消歧方法"></a>基于最大熵的上下文分类消歧方法</h3><p>在只掌握关于未知分布的部分知识的情况下，符合已知知识的概率分布可能有多个，但使熵值最大的概率分布最真实地反映了事件的分布情况，因为熵定义了随机变量的不确定性，当熵最大时，随机变量最不确定。也就是说，在已知部分知识的前提下，关于未知分布最合理的推断应该是符合已知知识最不确定或最大随机的推断。<br>对于求解的问题，就是估计在条件$b\in B$下(已知知识)，发生某个事件(未知分布)的概率$p(a|b)$，该概率使熵$H(p(A|B))$最大：<br>$$<br>p^*(a|b) &#x3D; \frac{1}{Z(b)}exp(\sum_{j &#x3D; 1}^l\lambda_j\cdot f_j(a,b))<br>$$<br>其中$Z(b) &#x3D; \sum_aexp(\sum_{j &#x3D; 1}^l\lambda_j\cdot f_j(a,b))$，$\lambda_j$是特征权重，$f_j(a,b)$是特征函数，$l &#x3D; k+1,k$是特征的个数，其中获取$\lambda$参数的GIS算法如下，设 A 为某一多义词所有义项的集合，B为所有上下文的集合，可定义 ${0, 1}$域上的二值函数 $f(a, b)$ 来表示上下文条件与义项之间的关系 ，上下文条件包括词性信息、词性信息和两种信息综合，这个也就是特征函数，可以是上下文满足条件下取1，其余取0这种特征函数，算法迭代过程中要求对应训练集中每个实例的任意$(a,b)\in A\times B$，$k$个特征函数之和为一常数$C$，即$\sum_{j &#x3D; 1}^kf_j(a,b) &#x3D; C$，假如该条件不满足，那么取$C &#x3D; \mathop{max}\limits_{a\in A,b\in B}\sum_{j &#x3D; 1}^kf_j(a,b)$，并增加一个修正特征$f_l:f_l(a,b) &#x3D; C - \sum_{j &#x3D; 1}^kf_j(a,b)$：</p>
+<ul>
+<li>初始化：$\lambda[1\cdots l] &#x3D; 0$</li>
+<li>计算每一个特征函数$f_j$的训练样本期望值$E_{\tilde p}(f_j)$</li>
+<li>迭代计算特征函数的模型期望值$E_p(f_j)$，利用上面的公式，计算$p^*$，若满足终止条件，则结束迭代，否则修正$\lambda:\lambda^{(n + 1)} &#x3D; \lambda^{(n)} + \frac1C\ln\left(\frac{E_{\tilde p}(f_j)}{E_{p^{(n)}}(f_j)}\right)$，继续下轮迭代</li>
+<li>算法结束，确定$\lambda$，算出每个$p^*$</li>
+</ul>
+<p>在学习过程中，首先有一个已标注的大规模训练样本，之后经过特征提取和筛选，选择特征模板，进行参数训练得到模型参数文件，在推理的过程中需要进行特征提取和选择特征模板，之后进行比对决策完成语义标记</p>
+<h3 id="基于词典的词义消歧方法"><a href="#基于词典的词义消歧方法" class="headerlink" title="基于词典的词义消歧方法"></a>基于词典的词义消歧方法</h3><ul>
+<li>基于语义定义的消歧：词典中词条本身的定义作为判断其语义的条件。例如，cone 在词典中有两个定义:一个是指 “松树的球果”，另一个是指“用于盛放其他东西的锥形物，比如，盛放冰激凌的锥形薄饼”。如果在文本中，“树(tree)” 或者 “冰(ice)”分别与cone同现时，cone的语义就可以确定了，tree对应cone的语义1，ice 对应cone的语义2。</li>
+<li>基于义类辞典(thesaurus) 的消歧：多义词的不同义项在使用时往往具有不同的<strong>上下文语义类</strong>，即通过上下文的语义范畴可以判断多义 词的使用义项。例如，crane 的两个词义“鹤”和“起重机”分别属于语义类“ANIMAL”和“MACHINERY”。不同的语义类往往具有不同的上下文语境，如经常表示“ANIMAL”语义类的共现词为“species, family, eat”等，而表示“MACHINE”语义类的共现词则为“tool, engine, blade”等。因此只要确定多义词的上下文词的义类范畴，就可确定多义词的词义。</li>
+<li>基于双语词典的消歧：需要消歧的语言称为第一语言，把需要借助的另一种语言称为第二语言。建立多义词 x 与相关词 y 之间的搭配关系，然后，在第二种语言的语料库中统计对应 x 不同词义的翻译与相关词 y 的翻译同现的次数，同现次数高的搭配对应的义项即为消歧后的词义。例如:单词 plant 有两个含义:“植物” 和 “工厂”。当对 plant 进行词义消歧时，需要首先识别出含有 plant 的短语，如:manufacturing plant，然后，在汉语语料库中搜索与这个短语对应的汉语短语实例，由于manufacturing 的汉语翻译“制造”只和“工厂”共现， 因此，可以确定在这个短语中plant 的词义为“工厂”。而短语 plant life 在汉语翻译中，“生命(life)”与“植物”共现的机会更多，因此，可以确定在短语 plant life 中plant 的词义为“植物”。</li>
+<li>Yarowsky 消歧算法：基本思想:基于词典的词义消歧算法都是分别处理每个出现的歧义词，且对歧义词有两个限制:每篇文本只有一个意义:在任意给定的文本中，目标词的词义具有高度的一致性;每个搭配只有一个意义:目标词和周围词之间的相对距离、词序和句法关系，为目标词的意义提供了很强的一致性的词义消歧线索。</li>
+</ul>
+<h2 id="无监督的词义消歧方法"><a href="#无监督的词义消歧方法" class="headerlink" title="无监督的词义消歧方法"></a>无监督的词义消歧方法</h2><p>对参数的估计不是根据有标注的训练语料，而是在无标注的语料上进行，开始时随机地初始化参数，然后根据EM算法重新估计该概率值。</p>
+<h1 id="语义角色标注semantic-role-labeling-SRL"><a href="#语义角色标注semantic-role-labeling-SRL" class="headerlink" title="语义角色标注semantic role labeling, SRL"></a>语义角色标注semantic role labeling, SRL</h1><p>基本任务：以句子为分析单位，<strong>以句子中的谓词为核心</strong>，分析句子中的其他成分与谓词之间的关系。主要用于信息抽取、自动文摘、机器翻译等</p>
+<h2 id="用于SRL研究的主要资源"><a href="#用于SRL研究的主要资源" class="headerlink" title="用于SRL研究的主要资源"></a>用于SRL研究的主要资源</h2><ul>
+<li>框架网(FrameNet) </li>
+<li>英语命题库(Proposition Bank, PropBank) </li>
+<li>英语名词命题库(NomBank)</li>
+<li>Chinese PropBank (CPB)</li>
+<li>Chinese NomBank</li>
+</ul>
+<p>例如命题库将宾州树库(Treebank)中的《华尔街日报》语料和一部分布朗语料(Brown Corpus)进行了人工的语义角色标注。与具体谓词直接相关的，这些角色用ARG0，ARG1，…，ARG5表示，如ARG0 通常表示动作的施事，ARG1通常表示动作的影响等，ARG2-ARG5 对于不同的谓语动词会有不同的语义含义;起修饰作用的辅助性角色，其角色标签都以ARGM开头，常见的有表示时间的角色ARGM-TMP，表示地理位置的角色ARGM-LOC，表示一般性修饰成分的角色ARGM-ADV等。语义角色标注一般是<strong>在句法分析的基础上进行</strong>的。</p>
+<h2 id="语义角色标注的基本流程"><a href="#语义角色标注的基本流程" class="headerlink" title="语义角色标注的基本流程"></a>语义角色标注的基本流程</h2><p>首先给定句子到句法分析器得到句法分析结果，之后完成候选论元剪除以尽量减少候选项的数目，之后进行论元识别，这一步是识别真正的论元，是一个两类分类问题，之后进行论元标注，这个过程是一个多类分类问题，然后进行后处理，删除重复论元，得到SRL结果。</p>
+<h2 id="基于短语结构句法分析的SRL方法"><a href="#基于短语结构句法分析的SRL方法" class="headerlink" title="基于短语结构句法分析的SRL方法"></a>基于短语结构句法分析的SRL方法</h2><p>候选论元剪枝:<br>第1步:将谓词作为当前节点，依次考察它的兄弟节点:如果一个兄弟节点和当前节点在句法结构上不是并列的(coordinated)关系，则将它作为候选项。如果该兄弟节点的句法标签是PP，将它的所有子节点也都作为候选项。<br>第2步:将当前节点的父节点设为当前节点，重复第1步的操作，直至当前节点是句法树的根节点。</p>
+<h2 id="基于依存关系的SRL方法"><a href="#基于依存关系的SRL方法" class="headerlink" title="基于依存关系的SRL方法"></a>基于依存关系的SRL方法</h2><p>与基于短语结构句法分析的SRL方法的区别:<br>基于短语结构句法分析的语义角色标注方法中，一个论元被表示为连续的几个词(短语)和一个语义角色标签。在基于依存句法分析的语义角色标注中一个论元被表示为一个中心词和一个语义角色标签<br>候选论元剪除方法:<br>第1步:将谓词作为当前节点，将它所有的孩子都作为候选项;<br>第2步:将当前节点设为它的父节点，重复第1步的操作，直到当前节点是依存句法树的根节点。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>自然语言处理学习笔记-lecture08-语义分析</p><p><a href="https://eryoyo.github.io/blog/2022/10/23/自然语言处理学习笔记-lecture08-语义分析/">https://eryoyo.github.io/blog/2022/10/23/自然语言处理学习笔记-lecture08-语义分析/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>eryoyo</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2022-10-23</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2022-10-23</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/blog/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></div><div class="a2a_kit a2a_kit_size_32 a2a_default_style"><a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a><a class="a2a_button_facebook"></a><a class="a2a_button_twitter"></a><a class="a2a_button_telegram"></a><a class="a2a_button_whatsapp"></a><a class="a2a_button_reddit"></a></div><script src="https://static.addtoany.com/menu/page.js" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="/blog/" alt="支付宝"></span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="/blog/" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/blog/2022/10/21/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-lecture07-%E5%8F%A5%E6%B3%95%E5%88%86%E6%9E%9001/"><span class="level-item">自然语言处理学习笔记-lecture07-句法分析01</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://eryoyo.github.io/blog/2022/10/23/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-lecture08-%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90/';
+            this.page.identifier = '2022/10/23/自然语言处理学习笔记-lecture08-语义分析/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'blog-eryoyo' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/blog/img/profile.jpeg" alt="eryoyo"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">eryoyo</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>北京</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/blog/archives"><p class="title">66</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/blog/categories"><p class="title">13</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/blog/tags"><p class="title">14</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/eryoyo" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/eryoyo"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Zhihu" href="https://www.zhihu.com/people/er-yo-49"><i class="fab fa-zhihu"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Csdn" href="https://blog.csdn.net/weixin_44994838"><i class="fab fa-drupal"></i></a></div></div></div><!--!--><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/blog/categories/linux/"><span class="level-start"><span class="level-item">linux</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/blog/categories/%E4%B8%AA%E4%BA%BA%E5%B0%8F%E8%AE%B0/"><span class="level-start"><span class="level-item">个人小记</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/blog/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"><span class="level-start"><span class="level-item">刷题笔记</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/blog/categories/%E5%8D%9C%E7%AE%97%E6%B3%95/"><span class="level-start"><span class="level-item">卜算法</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/blog/categories/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"><span class="level-start"><span class="level-item">图像处理</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile" href="/blog/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E5%AE%8F%E6%AF%85/"><span class="level-start"><span class="level-item">机器学习-李宏毅</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/blog/categories/%E6%A8%A1%E5%BC%8F%E8%AF%86%E5%88%AB%E4%B8%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">模式识别与机器学习</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/blog/categories/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/"><span class="level-start"><span class="level-item">离散数学</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/blog/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/"><span class="level-start"><span class="level-item">统计学习方法</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile" href="/blog/categories/%E7%BD%91%E7%AB%99%E5%88%9B%E5%BB%BA/"><span class="level-start"><span class="level-item">网站创建</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/blog/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/"><span class="level-start"><span class="level-item">自然语言处理</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile" href="/blog/categories/%E8%AE%BA%E6%96%87/"><span class="level-start"><span class="level-item">论文</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/blog/categories/%E9%AB%98%E7%BA%A7%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"><span class="level-start"><span class="level-item">高级人工智能</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-10-23T15:04:19.000Z">2022-10-23</time></p><p class="title"><a href="/blog/2022/10/23/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-lecture08-%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90/">自然语言处理学习笔记-lecture08-语义分析</a></p><p class="categories"><a href="/blog/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-10-21T13:27:13.000Z">2022-10-21</time></p><p class="title"><a href="/blog/2022/10/21/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-lecture07-%E5%8F%A5%E6%B3%95%E5%88%86%E6%9E%9001/">自然语言处理学习笔记-lecture07-句法分析01</a></p><p class="categories"><a href="/blog/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-10-21T09:09:30.000Z">2022-10-21</time></p><p class="title"><a href="/blog/2022/10/21/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-lecture06-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E4%B8%8E%E8%AF%8D%E6%80%A7%E6%A0%87%E6%B3%A8/">自然语言处理学习笔记-lecture06-词法分析与词性标注</a></p><p class="categories"><a href="/blog/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-10-21T05:31:25.000Z">2022-10-21</time></p><p class="title"><a href="/blog/2022/10/21/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-lecture5-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B03/">自然语言处理学习笔记-lecture5-语言模型03</a></p><p class="categories"><a href="/blog/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-10-20T12:37:33.000Z">2022-10-20</time></p><p class="title"><a href="/blog/2022/10/20/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-lecture5-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B02/">自然语言处理学习笔记-lecture5-语言模型02</a></p><p class="categories"><a href="/blog/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/blog/archives/2022/10/"><span class="level-start"><span class="level-item">十月 2022</span></span><span class="level-end"><span class="level-item tag">17</span></span></a></li><li><a class="level is-mobile" href="/blog/archives/2022/09/"><span class="level-start"><span class="level-item">九月 2022</span></span><span class="level-end"><span class="level-item tag">37</span></span></a></li><li><a class="level is-mobile" href="/blog/archives/2022/08/"><span class="level-start"><span class="level-item">八月 2022</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/blog/archives/2022/05/"><span class="level-start"><span class="level-item">五月 2022</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/blog/archives/2022/04/"><span class="level-start"><span class="level-item">四月 2022</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/blog/tags/docker/"><span class="tag">docker</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/hexo/"><span class="tag">hexo</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/icarus/"><span class="tag">icarus</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/makefile/"><span class="tag">makefile</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"><span class="tag">图像处理</span><span class="tag">14</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/%E5%9F%BA%E7%A1%80/"><span class="tag">基础</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="tag">机器学习</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/%E6%A8%A1%E5%BC%8F%E8%AF%86%E5%88%AB/"><span class="tag">模式识别</span><span class="tag">8</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/"><span class="tag">离散数学</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/%E7%AE%97%E6%B3%95/"><span class="tag">算法</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/"><span class="tag">统计学习方法</span><span class="tag">11</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/"><span class="tag">自然语言处理</span><span class="tag">12</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/%E8%AE%BA%E6%96%87/"><span class="tag">论文</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/%E9%AB%98%E7%BA%A7%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"><span class="tag">高级人工智能</span><span class="tag">2</span></a></div></div></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/blog/"><img src="/blog/img/profile.jpeg" alt="eryoyo的博客" height="28"></a><p class="is-size-7"><span>&copy; 2022 eryoyo</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/eryoyo"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/blog/js/column.js"></script><script src="/blog/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/blog/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/blog/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/blog/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/blog/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
